@@ -8,9 +8,31 @@ namespace CalculateLayer
 {
     public class UserManager
     {
+        public int UserDiscount = 10;
+
         public string GetFullName(string name, string family)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Name is required");
+            }
+
             return $"{name} {family}";
+        }
+
+        public void UpdateUserDiscount(int value)
+        {
+            UserDiscount = value;
+        }
+
+        public string SayHello(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            return $"Hello, {name}";
         }
     }
 }

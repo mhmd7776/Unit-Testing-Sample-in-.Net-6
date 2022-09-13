@@ -26,5 +26,50 @@ namespace CalculateLayer.NUnitTest
             Assert.That(fullName, Does.StartWith("mohammad").IgnoreCase);
             Assert.That(fullName, Does.Match("[A-Z]{1}[a-z]+ [A-Z]{1}[a-z]"));
         }
+
+        [Test]
+        public void GetFullName_InputEmptyLastName_OutputFullName()
+        {
+            // Act
+            var fullName = _userManager.GetFullName("Mohammad", string.Empty);
+
+            // Assert
+            Assert.That(fullName, Is.Not.Null);
+            Assert.IsFalse(string.IsNullOrEmpty(fullName));
+        }
+
+        [Test]
+        public void GetFullName_InputEmptyFirstName_ThrowException()
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+            {
+                _userManager.GetFullName(string.Empty, "Mahdavi");
+            });
+
+            Assert.That("Name is required", Is.EqualTo(exception?.Message));
+
+            Assert.That(() => _userManager.GetFullName(string.Empty, "Mahdavi"), 
+                Throws.ArgumentException.With.Message.EqualTo("Name is required"));
+        }
+
+        [Test]
+        public void UpdateUserDiscount_InputDiscountIntegerValue_UpdateDiscount()
+        {
+            _userManager.UpdateUserDiscount(20);
+
+            Assert.That(_userManager.UserDiscount, Is.InRange(10, 30));
+        }
+
+        [Test]
+        public void SayHello_InputEmptyName_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _userManager.SayHello(string.Empty);
+            });
+
+            Assert.That(() => _userManager.SayHello(string.Empty),
+                Throws.ArgumentNullException);
+        }
     }
 }

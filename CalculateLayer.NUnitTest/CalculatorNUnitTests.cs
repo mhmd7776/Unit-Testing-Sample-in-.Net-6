@@ -5,14 +5,20 @@ namespace CalculateLayer.NUnitTest
     [TestFixture]
     public class CalculatorNUnitTests
     {
+        // Arrange
+        private Calculator _calculator;
+
+        [SetUp]
+        public void Initializer()
+        {
+            _calculator = new Calculator();
+        }
+
         [Test]
         public void AddNumbers_InputTwoInteger_OutputSum()
         {
-            // Arrange
-            var calculator = new Calculator();
-
             // Act
-            var result = calculator.AddNumbers(5, 10);
+            var result = _calculator.AddNumbers(5, 10);
 
             // Assert
             Assert.AreEqual(15, result);
@@ -21,11 +27,8 @@ namespace CalculateLayer.NUnitTest
         [Test]
         public void IsEvenNumber_InputEvenNumber_OutputTrue()
         {
-            // Arrange
-            var calculator = new Calculator();
-
             // Act
-            var result = calculator.IsEvenNumber(12);
+            var result = _calculator.IsEvenNumber(12);
 
             // Assert
             Assert.IsTrue(result);
@@ -36,11 +39,8 @@ namespace CalculateLayer.NUnitTest
         [TestCase(13)]
         public void IsEvenNumber_InputOddNumber_OutputFalse(int number)
         {
-            // Arrange
-            var calculator = new Calculator();
-
             // Act
-            var result = calculator.IsEvenNumber(number);
+            var result = _calculator.IsEvenNumber(number);
 
             // Assert
             Assert.IsFalse(result);
@@ -51,9 +51,7 @@ namespace CalculateLayer.NUnitTest
         [TestCase(14, ExpectedResult = true)]
         public bool IsEvenNumber_InputNumber_OutputFalseIfOddElseTrue(int number)
         {
-            var calculator = new Calculator();
-
-            var result = calculator.IsEvenNumber(number);
+            var result = _calculator.IsEvenNumber(number);
 
             return result;
         }
@@ -64,11 +62,28 @@ namespace CalculateLayer.NUnitTest
         [TestCase(270, ExpectedResult = -1)]
         public double Sin_InputAngleInDegree_OutputSin(double degree)
         {
-            var calculator = new Calculator();
-
-            var result = calculator.Sin(degree);
+            var result = _calculator.Sin(degree);
 
             return result;
+        }
+
+        [Test]
+        public void GetOddNumbers_InputMinAndMaxRange_OutputOddNumbersInRange()
+        {
+            var expectedNumbers = new List<int> { 1, 3, 5, 7, 9 };
+
+            var result = _calculator.GetOddNumbers(1, 10);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.EquivalentTo(expectedNumbers));
+                Assert.That(result, Does.Contain(7));
+                Assert.That(result, Has.No.Member(6));
+                Assert.That(result, Is.Not.Empty);
+                Assert.That(result.Count, Is.EqualTo(5));
+                Assert.That(result, Is.Ordered.Ascending);
+                Assert.That(result, Is.Unique);
+            });
         }
     }
 }
