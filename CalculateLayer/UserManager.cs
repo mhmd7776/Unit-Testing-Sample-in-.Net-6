@@ -10,6 +10,8 @@ namespace CalculateLayer
     {
         public int UserDiscount = 10;
 
+        public int UserScore = 0;
+
         public string GetFullName(string name, string family)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -34,5 +36,27 @@ namespace CalculateLayer
 
             return $"Hello, {name}";
         }
+
+        public User CheckUserType()
+        {
+            if (UserScore >= 100) return new VipUser();
+
+            return new NormalUser();
+        }
+    }
+
+    public class User
+    {
+
+    }
+
+    public class NormalUser : User
+    {
+
+    }
+
+    public class VipUser : User
+    {
+
     }
 }

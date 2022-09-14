@@ -71,5 +71,25 @@ namespace CalculateLayer.NUnitTest
             Assert.That(() => _userManager.SayHello(string.Empty),
                 Throws.ArgumentNullException);
         }
+
+        [Test]
+        public void CheckUserType_InputUserScoreGreaterThan100_OutputVipUserType()
+        {
+            _userManager.UserScore = 150;
+
+            var result = _userManager.CheckUserType();
+
+            Assert.That(result, Is.TypeOf<VipUser>());
+        }
+
+        [Test]
+        public void CheckUserType_InputUserScoreLessThan100_OutputNormalUserType()
+        {
+            _userManager.UserScore = 40;
+
+            var result = _userManager.CheckUserType();
+
+            Assert.That(result, Is.TypeOf<NormalUser>());
+        }
     }
 }
