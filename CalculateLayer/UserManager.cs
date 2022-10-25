@@ -8,9 +8,9 @@ namespace CalculateLayer
 {
     public class UserManager
     {
-        public int UserDiscount = 10;
+        public int UserDiscount { get; set; } = 10;
 
-        public int UserScore = 0;
+        public int UserScore { get; set; } = 0;
 
         public string GetFullName(string name, string family)
         {
